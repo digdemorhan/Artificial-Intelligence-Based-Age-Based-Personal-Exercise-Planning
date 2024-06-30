@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YaşaGöreEGzersizTahmini</title>
+    <style>
+        .caveat-uniquifier {
+            font-family: "Caveat", cursive;
+            font-optical-sizing: auto;
+            font-weight: weight;
+            font-style: normal;
+            }
+    
+            body {
+                font-family: "Caveat", cursive;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .youtube-video {
+                margin-bottom: 20px;
+            }
+            .userInfo {
+                margin-bottom: 20px;
+            }
+            .userInfo label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            .userInfo select, .userInfo input[type="text"] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            .userInfo button {
+                background-color: #4caf50;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            .userInfo button:hover {
+                background-color: #45a049;
+            }
+            #result-textarea {
+                display: none;
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-top: 20px;
+            }
+            h2,p{
+                text-align: center;
+            }
+            
+        </style>
+        
+            <script>
+                // JavaScript to clear form fields on page reload
+                window.onload = function() {
+                    document.getElementById('age').value = '';
+                    document.getElementById('weight').value = '';
+                    document.getElementById('gender').value = '';
+                    document.getElementById('exercise_history').value = '';
+                }
+            </script>
+</head>
+<body><br><br>
+    <h1>Yaşa Göre Egzersiz Tahmini</h1>
+    <form action="/classify" method="post" style="text-align: center;">
+        <label for="age">Yaş:</label><br>
+        <input type="text" id="age" name="age" min="20" max="40" required><br>
+        <label for="weight">Kilo (kg):</label><br>
+        <input type="text" id="weight" name="weight" min="50" max="100" required><br>
+        <label for="size">Boy (cm):</label><br>
+        <input type="text" id="size" name="size" required><br>
+        <label for="gender">Cinsiyet (Kadın/Erkek):</label><br>
+        <input type="text" id="gender" name="gender"><br>
+        <label for="exercise_history">Egzersiz Geçmişiniz Var Mı? (Evet/Hayır):</label><br>
+        <input type="text" id="exercise_history" name="exercise_history"><br>
+        <label for="heartDisease">Herhangi bir kalp rahatsızlığınız var mı? (Evet/Hayır):</label><br>
+        <input type="text" id="heartDisease" name="heartDisease"><br>
+        <label for="respiratoryDisease">Herhangi bir solunum yolu rahatsızlığınız var mı? (Evet/Hayır):</label><br>
+        <input type="text" id="respiratoryDisease" name="respiratoryDisease"><br><br>
+        <input type="submit" value="Sınıflandır">
+    </form><br><br>
+    <h2>Yaşınıza Göre Uygun Egzersiz Biçimi:</h2>
+    <p>Uygun Kategori: {{ prediction }}</p>
+    {% if prediction == 'Seviye1' %}
+    <p>20-25 yaş arasındaki yaş grubu daha enerjik ve dinamik sporları tercih eder. Koşu, yüzme, bisiklet, voleybol ve basketbol kardiyo ve dayanıklılık için önerilen sporlardır. Kuvvet antrenmanı da gereklidir.</p>
+    {% elif prediction == 'Seviye2' %}
+        <p>25-30 yaş arasındaki yaş grubu genellikle daha tecrübeli ve hedef odaklıdır. Yorucu kalp egzersizlerinin yanı sıra ağırlık antrenmanı, pilates, yoga gibi esneklik ve kas gücü artırıcı aktiviteler de faydalı olabilir.
+        </p>
+    {% elif prediction == 'Seviye3' %}
+        <p>30 -35 arasındaki yaş grubu; esneklik ve kuvvet antrenmanlarına ek olarak, yavaş tempolu egzersizler ve esneme rutinleri bu yaş grubunda faydalı olabilir. Yoga, pilates ve tai chi rahatlamanıza ve fiziksel sağlığınızı geliştirmenize yardımcı olabilecek aktivitelerdir.
+        </p>
+    {% elif prediction == 'Seviye4' %}
+        <p>35-40 arasındaki yaş grubunda sakatlanma riski yaşla birlikte artar, bu nedenle düşük etkili aerobik egzersizler ve yavaş tempolu kuvvet antrenmanları önerilir. Yürüyüş, bisiklete binme ve düşük ağırlıklarla yapılan direnç egzersizleri vücudunuza yük bindirmeden formda kalmanıza yardımcı olabilir.</p>
+    {% elif prediction == 'Seviye5' %}
+        <p>40-45 yaş aralığındaki grupta esneklik, denge ve kuvvet antrenmanı çok önemlidir. Yoga, pilates, tai chi, düşük etkili kardiyo rutinleri ve hafif ağırlıkta kuvvet antrenmanları önerilir.</p>
+    {% else %}
+        <p style="color: white;">Tanımlanamayan etiket.</p>
+    {% endif %}
+    
+</body>
+</html>
